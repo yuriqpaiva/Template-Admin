@@ -7,6 +7,10 @@ interface AppContextProps {
     alternarTema?: () => void
 }
 
+interface AppProviderProps {
+    children: any
+}
+
 const AppContext = createContext<AppContextProps>({
     // Valores do objeto que serão passados como padrão
     tema: null,
@@ -14,7 +18,7 @@ const AppContext = createContext<AppContextProps>({
 })
 
 // Criando o próprio componente que vai controlar os estados do contexto
-export function AppProvider(props) {
+export function AppProvider(props: AppProviderProps) {
 
     const [tema, setTema] = useState<Tema>('')
 
