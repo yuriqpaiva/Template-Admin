@@ -20,7 +20,6 @@ export default function AvatarUsuario(props: AvatarUsuarioProps) {
                 ${props.className}
                 `}
             />
-
         </Link>
     )
 }
