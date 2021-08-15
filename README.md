@@ -1,6 +1,6 @@
 # Template Admin
 
-Projeto Front-End feito em React - NextJS utilizando Typescript
+Projeto Front-End feito em React - NextJS utilizando Typescript e Firebase na parte de autenticação de usuário.
 
 # Como funciona?
 
@@ -16,4 +16,10 @@ npm run dev
 
 # Explicando o projeto
 
-Este projeto tem a intenção de ser um template base para diversas aplicações web que requerem autenticação.
+Este projeto tem a intenção de ser um template base para diversas aplicações web que requerem autenticação. As imagens geradas na página de autentacação são aleatórias.
+
+
+![Imagem-aplicacao1](./public/images/img-app1.png)
+
+
+![Imagem-aplicacao2](./public/images/img-app2.png)
