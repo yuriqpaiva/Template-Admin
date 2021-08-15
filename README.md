@@ -1,6 +1,6 @@
 # Template Admin
 
-Projeto Front-End feito em React - NextJS utilizando Typescript e Firebase na parte de autenticação de usuário.
+Projeto Front-End feito em React - NextJS utilizando Typescript, TailWindCSS e Firebase na parte de autenticação de usuário.
 
 # Como funciona?
 
