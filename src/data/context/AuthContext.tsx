@@ -5,8 +5,12 @@ import route from 'next/router'
 import Cookies from 'js-cookie'
 
 interface AuthContextProps {
-    usuario: Usuario
-    loginGoogle: () => Promise<void>
+    usuario?: Usuario
+    carregando?: boolean
+    loginGoogle?: () => Promise<void>
+    logout?: () => Promise<void>
+    login?: (email: string, senha: string) => Promise<void>
+    cadastrar?: (email: string, senha: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextProps>({})
@@ -46,35 +50,79 @@ export function AuthProvider(props) {
         if (usuarioFirebase?.email) {
             const usuario = await usuarioNormalizado(usuarioFirebase)
             setUsuario(usuario)
-            gerenciarCookie(true)
+            gerenciarCookie(true)   // Não está fazendo nada por enquanto
             setCarregando(false)
-            return usuario.email
+            return usuario.email    // Não está fazendo nada por enquanto
         } else {
             setUsuario(null)
-            gerenciarCookie(false)
+            gerenciarCookie(false)  // Não está fazendo nada por enquanto
             setCarregando(false)
             return false
         }
     }
 
     async function loginGoogle() {
-        const resp = await firebase.auth().signInWithPopup(
-            new firebase.auth.GoogleAuthProvider()
-        )
-        configurarSessao(resp.user)
-        route.push('/')
+        try {
+            setCarregando(true)
+            const resp = await firebase.auth().signInWithPopup(
+                new firebase.auth.GoogleAuthProvider()
+            )
+            await configurarSessao(resp.user)
+            route.push('/')
+        } finally {
+            setCarregando(false)
+        }
+    }
+
+    async function login(email, senha) {
+        try {
+            setCarregando(true)
+            const resp = await firebase.auth().signInWithEmailAndPassword(email, senha)
+            configurarSessao(resp.user)
+            route.push('/')
+        } finally {
+            setCarregando(false)
+        }
+    }
+
+    async function cadastrar(email, senha) {
+        try {
+            setCarregando(true)
+            const resp = await firebase.auth().createUserWithEmailAndPassword(email, senha)
+            await configurarSessao(resp.user)
+            route.push('/')
+        } finally {
+            setCarregando(false)
+        }
+    }
+
+    async function logout() {
+        try {
+            setCarregando(true)
+            await firebase.auth().signOut()
+            await configurarSessao(null)
+        } finally {
+            setCarregando(false)
+        }
     }
 
     useEffect(() => {
-        const cancelar = firebase.auth().onIdTokenChanged(configurarSessao)
-        return () => cancelar() // quando o componente for desmontado, `cancelar` não será mais chamado 
+        if (Cookies.get('admin-template-auth')) {
+            const cancelar = firebase.auth().onIdTokenChanged(configurarSessao)
+            return () => cancelar() // quando o componente for desmontado, `cancelar` não será mais chamado 
+        } else {
+            setCarregando(false)
+        }
     }, [])
-
 
     return (
         <AuthContext.Provider value={{
             usuario,
-            loginGoogle
+            carregando,
+            loginGoogle,
+            logout,
+            login,
+            cadastrar
         }}>
             {props.children}
         </AuthContext.Provider>

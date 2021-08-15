@@ -6,7 +6,7 @@ import useAuth from "../data/hook/useAuthData";
 
 export default function Autenticacao() {
 
-    const { usuario, loginGoogle } = useAuth()
+    const { cadastrar, login, loginGoogle } = useAuth()
 
     const [modo, setModo] = useState<'login' | 'cadastro'>('login')
     const [erro, setErro] = useState(null)
@@ -20,13 +20,23 @@ export default function Autenticacao() {
         }, tempoEmSegundos * 1000)
     }
 
-    function submeter() {
-        if (modo === 'login') {
-            console.log('login')
-            exibirErro('Ocorreu um erro no login')
-        } else {
-            console.log('cadastrar')
-            exibirErro('Ocorreu um erro no cadastro')
+    async function submeter() {
+        try {
+            if (modo === 'login') {
+                await login(email, senha)
+            } else {
+                await cadastrar(email, senha)
+            }
+        } catch (e) {
+            exibirErro(e?.message ?? 'Erro desconhecido')
+        }
+    }
+
+    async function submeterGoogle() {
+        try {
+            await loginGoogle()
+        } catch (e) {
+            exibirErro(e?.message ?? 'Erro desconhecido')
         }
     }
 
@@ -84,7 +94,7 @@ export default function Autenticacao() {
                         'Cadastrar'}
                 </button>
                 <hr className="my-6 border-gray-300 w-full" />
-                <button onClick={loginGoogle} className={`
+                <button onClick={submeterGoogle} className={`
                     w-full bg-red-500 hover:bg-red-400
                     text-white rounded-lg px-4 py-3
                 `}>
@@ -96,9 +106,9 @@ export default function Autenticacao() {
                         Novo por aqui?
                         <a onClick={() => setModo('cadastro')} className={`
                             text-blue-500 hover:text-blue-700 font-semibold
-                            cursor-pointer
+                            cursor-pointer ml-1
                         `}>
-                            Crie uma Conta Gratuitamente
+                            <div>Crie uma Conta Gratuitamente</div>
                         </a>
                     </p>
                 ) :
@@ -107,9 +117,9 @@ export default function Autenticacao() {
                             Já faz parte da nossa comunidade?
                             <a onClick={() => setModo('login')} className={`
                             text-blue-500 hover:text-blue-700 font-semibold
-                            cursor-pointer
+                            cursor-pointer ml-1
                         `}>
-                                Entre com as suas Credenciais
+                                <div>Entre com as suas Credenciais</div>
                             </a>
                         </p>
                     )

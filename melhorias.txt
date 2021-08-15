@@ -1,0 +1,6 @@
+1 - Implementar verificação de senha no cadastro
+
+2 - Mostrar o nome do usuário na página de perfil e outras informações
+
+3 - Colocar ícone google ao lado do botão de "Entrar com Google"
+
