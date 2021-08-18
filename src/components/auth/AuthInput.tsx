@@ -16,7 +16,7 @@ export default function AuthInput(props: AuthInputProps) {
                 value={props.valor}
                 onChange={e => props.valorMudou?.(e.target.value)}
                 required={props.obrigatorio}
-                placeholder={`Preencha o campo ${props.label}`}
+                placeholder={`${props.label}...`}
                 className={`
                     px-4 py-3 rounded-lg bg-gray-200 
                     border focus:border-blue-500 focus:bg-white

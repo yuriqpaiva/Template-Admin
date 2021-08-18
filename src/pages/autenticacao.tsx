@@ -12,6 +12,7 @@ export default function Autenticacao() {
     const [erro, setErro] = useState(null)
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+    const [senhaConfirmada, setSenhaConfirmada] = useState('')
 
     function exibirErro(msg, tempoEmSegundos = 5) {
         setErro(msg)
@@ -24,8 +25,10 @@ export default function Autenticacao() {
         try {
             if (modo === 'login') {
                 await login(email, senha)
-            } else {
+            } else if (senha === senhaConfirmada) {
                 await cadastrar(email, senha)
+            } else {
+                exibirErro('Confirmação de senha inválida')
             }
         } catch (e) {
             exibirErro(e?.message ?? 'Erro desconhecido')
@@ -85,6 +88,15 @@ export default function Autenticacao() {
                     valorMudou={setSenha}
                     obrigatorio
                 />
+
+                <AuthInput
+                    label="Confirmar Senha"
+                    tipo='password'
+                    valor={senhaConfirmada}
+                    valorMudou={setSenhaConfirmada}
+                    obrigatorio
+                />
+
                 <button onClick={submeter} className={`
                     w-full bg-indigo-500 hover:bg-indigo-400
                     text-white rounded-lg px-4 py-3 mt-6
