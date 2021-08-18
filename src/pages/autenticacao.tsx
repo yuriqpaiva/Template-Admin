@@ -107,10 +107,11 @@ export default function Autenticacao() {
                 </button>
                 <hr className="my-6 border-gray-300 w-full" />
                 <button onClick={submeterGoogle} className={`
-                    w-full bg-red-500 hover:bg-red-400
+                    flex justify-center align-middle  w-full bg-red-500 hover:bg-red-400
                     text-white rounded-lg px-4 py-3
                 `}>
-                    Entrar com Google
+                        <img src="/images/gmail.png" alt="" className="h-8 w-8"/>
+                        <span className="mt-1 ml-2">Login Gmail</span>
                 </button>
 
                 {modo === 'login' ? (

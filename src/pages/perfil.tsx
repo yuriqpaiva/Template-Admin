@@ -14,7 +14,8 @@ export default function Perfil() {
           <AvatarUsuario/>
           <div className="mx-2">
             <h2>{usuario?.nome}</h2>
-            <a href={`mailto: ${usuario?.email}`} type="email" className="underline hover:text-gray-300">{usuario?.email}</a>
+            <a href={`mailto: ${usuario?.email}`} type="email" className="underline hover:text-gray-600 
+            dark:hover:text-gray-300">{usuario?.email}</a>
           </div>
         </div>
         <span></span>
